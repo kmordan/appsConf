@@ -148,9 +148,12 @@ extension ViewController {
 	private func subscribeForApplicationNotification() {
 		let notificationCenter = NotificationCenter.default
 		notificationCenter.addObserver(self, selector:#selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
-		notificationCenter.addObserver(self, selector: #selector(willResignActive), name: UIApplication.willResignActiveNotification, object: nil)
 		
 		notificationCenter.addObserver(self, selector: #selector(didEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+		
+		notificationCenter.addObserver(self, selector: #selector(willResignActive), name: UIApplication.willResignActiveNotification, object: nil)
+		
+		notificationCenter.addObserver(self, selector: #selector(didBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
 	}
 	
 	@objc func willEnterForeground(notification: NSNotification) {
@@ -162,17 +165,47 @@ extension ViewController {
 		
 		print("is first responder \(textField.isFirstResponder)")
 		print(notification)
+		
+		if let imageView  = UIApplication.shared.keyWindow?.subviews.last?.viewWithTag(101) {
+			imageView.removeFromSuperview()
+		}
+	}
+	
+	@objc func didEnterBackground(notification: NSNotification) {
+		print("is first responder \(textField.isFirstResponder)")
+		print(notification)
 	}
 	
 	@objc func willResignActive(notification: NSNotification) {
 		wasTextFieldFirstResponderBeforeAppDidEnterBackground = textField.isFirstResponder
 		print("is first responder \(textField.isFirstResponder)")
 		print(notification)
+		
+		let imageView = UIImageView(frame: self.view.window!.bounds)
+		imageView.tag = 101
+		imageView.backgroundColor = UIColor.white
+		imageView.contentMode = .center
+		imageView.image = fullScreenShot()
+		UIApplication.shared.keyWindow?.subviews.last?.addSubview(imageView)
 	}
 	
-	@objc func didEnterBackground(notification: NSNotification) {
-		print("is first responder \(textField.isFirstResponder)")
-		print(notification)
+	@objc func didBecomeActive(notification: NSNotification) {
+		if let imageView  = UIApplication.shared.keyWindow?.subviews.last?.viewWithTag(101) {
+			imageView.removeFromSuperview()
+		}
+	}
+	
+	func fullScreenShot() -> UIImage? {
+		let imgSize = UIScreen.main.bounds.size
+		UIGraphicsBeginImageContextWithOptions(imgSize, false, 0)
+		for window in UIApplication.shared.windows {
+			window.drawHierarchy(in: window.bounds, afterScreenUpdates: true)
+		}
+		
+		let img = UIGraphicsGetImageFromCurrentImageContext()
+		UIGraphicsEndImageContext()
+		
+		return img
 	}
 }
 
