@@ -34,6 +34,9 @@ class ViewController: UIViewController {
 		view.addGestureRecognizer(tapRecognizer)
 		
 		subscribeForApplicationNotification()
+		
+		let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handle(_:)))
+		view.addGestureRecognizer(panRecognizer)
 	}
 	
 	@objc func tapHandler() {
@@ -118,6 +121,7 @@ extension ViewController {
 				systemKeyboardFrame.origin.y = y;
 				
 				keyboardManager.keyboardView?.frame = systemKeyboardFrame;
+				bottomInputToolbarConstraint.constant = (view.bounds.height - y)
 			}
 		}
 	}
