@@ -20,6 +20,7 @@ class ViewController: UIViewController {
 	@IBOutlet weak var inputTolbar: UIView!
 	
 	@IBOutlet weak var textField: UITextField!
+	@IBOutlet weak var topConstraint: NSLayoutConstraint!
 	@IBOutlet weak var bottomInputToolbarConstraint: NSLayoutConstraint!
 	
 	var wasTextFieldFirstResponderBeforeAppDidEnterBackground = false
@@ -37,6 +38,14 @@ class ViewController: UIViewController {
 		
 		let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handle(_:)))
 		view.addGestureRecognizer(panRecognizer)
+	}
+	
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		
+		if #available(iOS 11.0, *) {
+			topConstraint.constant += view.safeAreaInsets.bottom
+		}
 	}
 	
 	@objc func tapHandler() {
@@ -115,11 +124,15 @@ extension ViewController {
 			var y = keyboardStartY
 			y += translation;
 			
+			
 			let keyboardManager = YYKeyboardManager.default()
 			if let kView = keyboardManager.keyboardView {
 				var systemKeyboardFrame = kView.frame;
 				systemKeyboardFrame.origin.y = y;
 				
+				if #available(iOS 11.0, *) {
+					systemKeyboardFrame.origin.y -= view.safeAreaInsets.bottom
+				}
 				keyboardManager.keyboardView?.frame = systemKeyboardFrame;
 				bottomInputToolbarConstraint.constant = (view.bounds.height - y)
 			}

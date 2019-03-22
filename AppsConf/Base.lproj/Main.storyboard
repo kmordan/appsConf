@@ -110,6 +110,7 @@
                         <outlet property="bottomInputToolbarConstraint" destination="RMW-Jj-S5P" id="O5a-bc-y5f"/>
                         <outlet property="inputTolbar" destination="yrz-rK-I5R" id="6IS-cs-V6a"/>
                         <outlet property="textField" destination="SdU-Sj-xJx" id="4wk-bJ-v9A"/>
+                        <outlet property="topConstraint" destination="lts-hU-lzt" id="WN4-xr-buz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
