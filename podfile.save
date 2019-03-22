@@ -1,0 +1,41 @@
+platform :ios, '10.0'
+use_frameworks!
+
+def pods
+    # Analytics
+    pod 'Fabric'
+    pod 'Crashlytics'
+    
+    # DI
+    pod 'Swinject', '~> 2.5'
+    pod 'SwinjectStoryboard', '~> 2.1'
+    
+    # Rx
+    pod 'RxSwift', '~> 4.3'
+    pod 'RxCocoa', '~> 4.3'
+    
+    # Networking
+    pod 'Moya/RxSwift', '~> 11.0'
+    
+    # Helpers
+    pod 'UIColor_Hex_Swift', '~> 4.2'
+    pod 'Typist', '~> 1.3'
+    pod 'Routable', :git => 'https://github.com/Beniamiiin/Routable.git'
+    pod 'SnapKit', '~> 4.0'
+    pod 'KeychainAccess', '~> 3.1'
+    pod 'UIWindowTransitions', '~> 0.1'
+    pod 'SwiftRichString', '~> 2.0'
+    pod 'SwiftDate', '~> 5.0'
+    pod 'Kingfisher', '~> 4.10'
+    
+    # UI
+    pod 'NVActivityIndicatorView', '~> 4.4'
+    pod 'SwiftCharts', '~> 0.6.3end
+
+target 'PIK' do
+	pods
+end
+
+target 'PIK-Dev' do
+    pods
+end

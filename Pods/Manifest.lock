@@ -1,0 +1,16 @@
+PODS:
+  - YYKeyboardManager (1.0.1)
+
+DEPENDENCIES:
+  - YYKeyboardManager
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - YYKeyboardManager
+
+SPEC CHECKSUMS:
+  YYKeyboardManager: ff53d2e80d1808567a7f004028bd200d9469a89f
+
+PODFILE CHECKSUM: 90d9f3f48c219d0d1358d0076c52d056325f0137
+
+COCOAPODS: 1.5.3

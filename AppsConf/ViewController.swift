@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YYKeyboardManager
 
 class ViewController: UIViewController {
 	private var tracker: KeyboardTracker!
@@ -108,20 +109,17 @@ extension ViewController {
 			
 //			[self.inputToolbar updateCustomKeyboardHeightWithDiff:diff animated:NO];
 		} else {
-			CGRect frame = _initialInputToolbarContainerFrame;
-			frame.size.height += translation;
+			var y = keyboardStartY
+			y += translation;
 			
-			YYKeyboardManager *keyboardManager = [YYKeyboardManager defaultManager];
-			if (keyboardManager.keyboardWindow != nil)
-			{
-				CGRect systemKeyboardFrame = keyboardManager.keyboardView.frame;
-				systemKeyboardFrame.origin.y = CGRectGetMaxY(frame);
+			let keyboardManager = YYKeyboardManager.default()
+			if let kView = keyboardManager.keyboardView {
+				var systemKeyboardFrame = kView.frame;
+				systemKeyboardFrame.origin.y = y;
 				
-				keyboardManager.keyboardView.frame = systemKeyboardFrame;
+				keyboardManager.keyboardView?.frame = systemKeyboardFrame;
 			}
 		}
-
-		
 	}
 	
 	func endKeyboardInteractionFor(_ pan: UIPanGestureRecognizer) {
