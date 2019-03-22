@@ -173,6 +173,24 @@ static int _YYKeyboardViewFrameObserverKey;
     for (window in [UIApplication sharedApplication].windows) {
         if ([self _getKeyboardViewFromWindow:window]) return window;
     }
+	
+//	__block UIWindow *window = nil;
+//
+//	__auto_type windows = [UIApplication sharedApplication].windows;
+//
+//	[windows enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(__kindof UIWindow * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//		if ([self _getKeyboardViewFromWindow:obj])
+//		{
+//			window = obj;
+//			*stop = YES;
+//		}
+//	}];
+//
+//	if (window != nil)
+//	{
+//		return window;
+//	}
+	
     window = [UIApplication sharedApplication].keyWindow;
     if ([self _getKeyboardViewFromWindow:window]) return window;
     
