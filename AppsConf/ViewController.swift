@@ -140,7 +140,10 @@ extension ViewController {
 	}
 	
 	func endKeyboardInteractionFor(_ pan: UIPanGestureRecognizer) {
-		tapHandler()
+		UIView.performWithoutAnimation {
+			tapHandler()
+
+		}
 	}
 }
 
