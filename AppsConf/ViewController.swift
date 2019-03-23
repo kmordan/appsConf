@@ -25,6 +25,8 @@ class ViewController: UIViewController {
 	
 	var wasTextFieldFirstResponderBeforeAppDidEnterBackground = false
 	
+	var imageView: UIImageView?
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
@@ -169,7 +171,7 @@ extension ViewController {
 		print("is first responder \(textField.isFirstResponder)")
 		print(notification)
 		
-		if let imageView  = UIApplication.shared.keyWindow?.subviews.last?.viewWithTag(101) {
+		if let imageView = self.imageView {
 			imageView.removeFromSuperview()
 		}
 	}
@@ -184,16 +186,23 @@ extension ViewController {
 		print("is first responder \(textField.isFirstResponder)")
 		print(notification)
 		
-		let imageView = UIImageView(frame: self.view.window!.bounds)
-		imageView.tag = 101
-		imageView.backgroundColor = UIColor.white
-		imageView.contentMode = .center
-		imageView.image = fullScreenShot()
-		UIApplication.shared.keyWindow?.subviews.last?.addSubview(imageView)
+		guard let keyWindow = UIApplication.shared.keyWindow else {
+			return
+		}
+		
+		imageView = UIImageView(frame: keyWindow.bounds)
+		imageView!.contentMode = .center
+		imageView!.image = fullScreenShot()
+		
+		guard let subview = keyWindow.subviews.last else {
+			return
+		}
+		
+		subview.addSubview(imageView!)
 	}
 	
 	@objc func didBecomeActive(notification: NSNotification) {
-		if let imageView  = UIApplication.shared.keyWindow?.subviews.last?.viewWithTag(101) {
+		if let imageView = self.imageView {
 			imageView.removeFromSuperview()
 		}
 	}
