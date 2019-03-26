@@ -26,7 +26,7 @@ class ViewController: UIViewController {
 	var wasTextFieldFirstResponderBeforeAppDidEnterBackground = false
 	
 	var imageView: UIImageView?
-	
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
@@ -58,7 +58,43 @@ class ViewController: UIViewController {
 // MARK - Interactive keyboard
 
 extension ViewController {
+	
+	func panHandler() {
+		let yPosition: CGFloat = 0.0
+		keyboardView()?.frame.origin.y = yPosition
+	}
+	
+	func keyboardView() -> UIView? {
+		let windows = UIApplication.shared.windows
+		
+		for window in windows.reversed() {
+			if let kView = keyboardView(fromWindow: window) {
+				return kView
+			}
+		}
+		
+		return nil
+	}
+	
+	func keyboardWindow() -> UIWindow? {
+		let windows = UIApplication.shared.windows
+		
+		for window in windows {
+			if keyboardView(fromWindow: window) != nil {
+				return window
+			}
+		}
+		
+		return nil
+	}
+	
+	func keyboardView(fromWindow window: UIWindow) -> UIView? {
+		return nil;
+	}
+	
 	@objc func handle(_ pan: UIPanGestureRecognizer) {
+//		let windows = UIApplication.shared.windows
+		
 		switch pan.state {
 		case .began:
 			adjustKeyboardFor(pan)
@@ -112,39 +148,42 @@ extension ViewController {
 			translation = view.frame.height - keyboardStartY;
 		}
 		
-		let finalKeyboardHeight = view.frame.height - keyboardStartY - translation - inputTolbar.bounds.height;
+//		let finalKeyboardHeight = view.frame.height - keyboardStartY - translation - inputTolbar.bounds.height;
 
-		let needUpdateCustomKeyboardHeight = (finalKeyboardHeight >= 258.0);
+//		let needUpdateCustomKeyboardHeight = (finalKeyboardHeight >= 258.0);
 		
-		if needUpdateCustomKeyboardHeight {
-			let keyboardHeight = view.frame.height - keyboardStartY;
+//		if needUpdateCustomKeyboardHeight {
+//			let keyboardHeight = view.frame.height - keyboardStartY;
+//
+//			let diff = finalKeyboardHeight - keyboardHeight;
+//
+////			[self.inputToolbar updateCustomKeyboardHeightWithDiff:diff animated:NO];
+//		} else {
+		var y = keyboardStartY
+		y += translation;
+		
+		
+		let keyboardManager = YYKeyboardManager.default()
+		if let kView = keyboardManager.keyboardView {
+			var systemKeyboardFrame = kView.frame;
+			systemKeyboardFrame.origin.y = y;
 			
-			let diff = finalKeyboardHeight - keyboardHeight;
-			
-//			[self.inputToolbar updateCustomKeyboardHeightWithDiff:diff animated:NO];
-		} else {
-			var y = keyboardStartY
-			y += translation;
-			
-			
-			let keyboardManager = YYKeyboardManager.default()
-			if let kView = keyboardManager.keyboardView {
-				var systemKeyboardFrame = kView.frame;
-				systemKeyboardFrame.origin.y = y;
-				
-				if #available(iOS 11.0, *) {
+			if #available(iOS 11.0, *) {
+				if systemKeyboardFrame.origin.y < view.frame.height {
 					systemKeyboardFrame.origin.y -= view.safeAreaInsets.bottom
+
 				}
-				keyboardManager.keyboardView?.frame = systemKeyboardFrame;
-				bottomInputToolbarConstraint.constant = (view.bounds.height - y)
 			}
+			keyboardManager.keyboardView?.frame = systemKeyboardFrame;
+			
+			bottomInputToolbarConstraint.constant = (view.bounds.height - y)
 		}
+//		}
 	}
 	
 	func endKeyboardInteractionFor(_ pan: UIPanGestureRecognizer) {
 		UIView.performWithoutAnimation {
 			tapHandler()
-
 		}
 	}
 }
