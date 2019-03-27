@@ -48,6 +48,11 @@ class ViewController: UIViewController {
 		if #available(iOS 11.0, *) {
 			topConstraint.constant += view.safeAreaInsets.bottom
 		}
+		
+		if UI_USER_INTERFACE_IDIOM() == .pad {
+			topConstraint.constant *= 0.2
+//			topConstraint.constant = 0.0
+		}
 	}
 	
 	@objc func tapHandler() {
@@ -262,6 +267,10 @@ extension ViewController {
 
 extension ViewController: KeyboardTrackerDelegare {
 	func keyboardWillChange(_ height: CGFloat, with animation: KeyboardTransitionAnimation) {
+		
+		if (height - self.bottomInputToolbarConstraint.constant) < 20 && (height - self.bottomInputToolbarConstraint.constant) > 0  {
+			return
+		}
 		
 		self.bottomInputToolbarConstraint.constant = height
 		
