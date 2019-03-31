@@ -53,7 +53,6 @@ class KeyboardTracker {
 extension KeyboardTracker {
 	
 	@objc func keyboardWillShow(notification: NSNotification) {
-//		print(notification)
 	}
 	
 	@objc func keyboardWillHide(notification: NSNotification) {
@@ -86,11 +85,6 @@ extension KeyboardTracker {
 		let keyboardFrame = window.convert(screenCoordinatedKeyboardFrame, from: nil)
 		
 		print("\(#function) \(keyboardFrame)")
-		
-//		let v = UIView(frame: keyboardFrame)
-//		v.backgroundColor = .red
-//
-//		window.subviews.last?.addSubview(v)
 	}
 	
 	@objc func keyboardWillChangeFrame(notification: NSNotification) {
@@ -122,14 +116,15 @@ extension KeyboardTracker {
 		let animation = KeyboardTransitionAnimation(duration: aDuration, curve: aCurve);
 
 		// iPad 1
+//		let isKeyboardUndocked = false
 		let isKeyboardUndocked = isIPad() && keyboardFrame.maxY < windowHeight
 
 		if isKeyboardUndocked {
 			keyboardHeight = 0.0
 		}
-		
+
 		// iPad 2
-		
+
 		let isKeyboardOnTopOfScreen = keyboardFrame.minY <= window.frame.minY;
 
 		if isKeyboardOnTopOfScreen {

@@ -42,6 +42,22 @@ class ViewController: UIViewController {
 		view.addGestureRecognizer(panRecognizer)
 	}
 	
+	override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+		if motion == .motionShake {
+			let window = UIWindow(frame: view.window!.frame)
+			
+			let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "123")
+			
+			window.rootViewController = vc
+			
+//			window.makeKeyAndVisible()
+			
+			self.present(vc, animated: true) {
+				vc.dismiss(animated: true, completion: nil)
+			}
+		}
+	}
+	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		
@@ -51,7 +67,6 @@ class ViewController: UIViewController {
 		
 		if UI_USER_INTERFACE_IDIOM() == .pad {
 			topConstraint.constant *= 0.2
-//			topConstraint.constant = 0.0
 		}
 	}
 	
@@ -98,8 +113,6 @@ extension ViewController {
 	}
 	
 	@objc func handle(_ pan: UIPanGestureRecognizer) {
-//		let windows = UIApplication.shared.windows
-		
 		switch pan.state {
 		case .began:
 			adjustKeyboardFor(pan)
@@ -208,7 +221,7 @@ extension ViewController {
 	@objc func willEnterForeground(notification: NSNotification) {
 		if wasTextFieldFirstResponderBeforeAppDidEnterBackground {
 			UIView.performWithoutAnimation {
-				textField.becomeFirstResponder()
+//				textField.becomeFirstResponder()
 			}
 		}
 		
