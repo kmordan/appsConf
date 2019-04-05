@@ -50,8 +50,6 @@ class ViewController: UIViewController {
 			
 			window.rootViewController = vc
 			
-//			window.makeKeyAndVisible()
-			
 			self.present(vc, animated: true) {
 				vc.dismiss(animated: true, completion: nil)
 			}
@@ -166,17 +164,6 @@ extension ViewController {
 			translation = view.frame.height - keyboardStartY;
 		}
 		
-//		let finalKeyboardHeight = view.frame.height - keyboardStartY - translation - inputTolbar.bounds.height;
-
-//		let needUpdateCustomKeyboardHeight = (finalKeyboardHeight >= 258.0);
-		
-//		if needUpdateCustomKeyboardHeight {
-//			let keyboardHeight = view.frame.height - keyboardStartY;
-//
-//			let diff = finalKeyboardHeight - keyboardHeight;
-//
-////			[self.inputToolbar updateCustomKeyboardHeightWithDiff:diff animated:NO];
-//		} else {
 		var y = keyboardStartY
 		y += translation;
 		
@@ -192,11 +179,12 @@ extension ViewController {
 
 				}
 			}
-			keyboardManager.keyboardView?.frame = systemKeyboardFrame;
+			let transform = CATransform3DMakeTranslation(systemKeyboardFrame.origin.x, y, 0.0)
+			keyboardManager.keyboardWindow?.layer.sublayerTransform = transform
+//			keyboardManager.keyboardView?.frame = systemKeyboardFrame;
 			
 			bottomInputToolbarConstraint.constant = (view.bounds.height - y)
 		}
-//		}
 	}
 	
 	func endKeyboardInteractionFor(_ pan: UIPanGestureRecognizer) {
@@ -218,25 +206,9 @@ extension ViewController {
 		notificationCenter.addObserver(self, selector: #selector(didBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
 	}
 	
-	@objc func willEnterForeground(notification: NSNotification) {
-		if wasTextFieldFirstResponderBeforeAppDidEnterBackground {
-			UIView.performWithoutAnimation {
-//				textField.becomeFirstResponder()
-			}
-		}
-		
-		print("is first responder \(textField.isFirstResponder)")
-		print(notification)
-		
-		if let imageView = self.imageView {
-			imageView.removeFromSuperview()
-		}
-	}
 	
-	@objc func didEnterBackground(notification: NSNotification) {
-		print("is first responder \(textField.isFirstResponder)")
-		print(notification)
-	}
+	
+	
 	
 	@objc func willResignActive(notification: NSNotification) {
 		wasTextFieldFirstResponderBeforeAppDidEnterBackground = textField.isFirstResponder
@@ -256,6 +228,27 @@ extension ViewController {
 		}
 		
 		subview.addSubview(imageView!)
+	}
+	
+	@objc func didEnterBackground(notification: NSNotification) {
+		print("is first responder \(textField.isFirstResponder)")
+		print(notification)
+	}
+	
+	@objc func willEnterForeground(notification: NSNotification) {
+		
+		if wasTextFieldFirstResponderBeforeAppDidEnterBackground {
+			UIView.performWithoutAnimation {
+				textField.becomeFirstResponder()
+			}
+		}
+		
+		print("is first responder \(textField.isFirstResponder)")
+		print(notification)
+		
+		if let imageView = self.imageView {
+			imageView.removeFromSuperview()
+		}
 	}
 	
 	@objc func didBecomeActive(notification: NSNotification) {
