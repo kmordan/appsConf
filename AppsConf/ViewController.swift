@@ -17,8 +17,9 @@ class ViewController: UIViewController {
 	var _panStartFromInput: Bool = false
 	var keyboardStartY: CGFloat = 0.0
 	
-	@IBOutlet weak var inputTolbar: UIView!
+//	@IBOutlet weak var inputTolbar: UIView!
 	
+	var tummyView: UIView!
 	@IBOutlet weak var textField: UITextField!
 	@IBOutlet weak var topConstraint: NSLayoutConstraint!
 	@IBOutlet weak var bottomInputToolbarConstraint: NSLayoutConstraint!
@@ -29,9 +30,11 @@ class ViewController: UIViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
+		tummyView = Bundle.main.loadNibNamed("TummyView", owner: self, options: nil)?.first as! UIView
+//		inputToolbar.frame = CGRect(x: 0, y: self.view.frame.height - inputToolbar!.frame.height, width: inputToolbar!.frame.width, height: inputToolbar!.frame.height)
+
 		self.tracker = KeyboardTracker(with: self)
-		self.tracker.enable()
+//		self.tracker.enable()
 		
 		let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapHandler))
 		view.addGestureRecognizer(tapRecognizer)
@@ -39,7 +42,7 @@ class ViewController: UIViewController {
 		subscribeForApplicationNotification()
 		
 		let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handle(_:)))
-		view.addGestureRecognizer(panRecognizer)
+//		view.addGestureRecognizer(panRecognizer)
 	}
 	
 	override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
@@ -59,6 +62,8 @@ class ViewController: UIViewController {
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		
+//		self.becomeFirstResponder()
+		
 		if #available(iOS 11.0, *) {
 			topConstraint.constant += view.safeAreaInsets.bottom
 		}
@@ -69,7 +74,15 @@ class ViewController: UIViewController {
 	}
 	
 	@objc func tapHandler() {
-		view.endEditing(true)
+		tummyView.resignFirstResponder()
+	}
+	
+	override var inputAccessoryView: UIView? {
+		return tummyView
+	}
+	
+	override var canBecomeFirstResponder: Bool {
+		return true
 	}
 }
 
@@ -124,7 +137,7 @@ extension ViewController {
 	}
 	
 	func adjustKeyboardFor(_ pan: UIPanGestureRecognizer) {
-		let relativeInputLocation = pan.location(in: inputTolbar).y
+		let relativeInputLocation = pan.location(in: tummyView).y
 		
 		if relativeInputLocation > 0.0 {
 			if _panningKeybard == false {

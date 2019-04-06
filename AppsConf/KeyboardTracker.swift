@@ -27,7 +27,9 @@ class KeyboardTracker {
 	
 	func enable() {
 		let notificationCenter = NotificationCenter.default
-		notificationCenter.addObserver(self,selector: #selector(keyboardWillChangeFrame), name:UIResponder.keyboardWillChangeFrameNotification, object: nil)
+		notificationCenter.addObserver(self,
+									   selector: #selector(keyboardWillChangeFrame),
+									   name:UIResponder.keyboardWillChangeFrameNotification, object: nil)
 		notificationCenter.addObserver(self, selector: #selector(keyboardDidChangeFrame), name: UIResponder.keyboardDidChangeFrameNotification, object: nil)
 		
 		notificationCenter.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
