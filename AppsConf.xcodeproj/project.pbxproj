@@ -10,7 +10,9 @@
 		7DAA3970DC9916A36C43E484 /* Pods_AppsConf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 256553E6AD6430540E3D9E13 /* Pods_AppsConf.framework */; };
 		A13460A22257326500CA35C7 /* TummyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A13460A12257326500CA35C7 /* TummyView.xib */; };
 		A13460A422573C9300CA35C7 /* TummyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13460A322573C9300CA35C7 /* TummyView.swift */; };
+		A1495FFC225C8DD90017E898 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1495FFB225C8DD90017E898 /* Logger.swift */; };
 		A18C9A80224BDB9E001AB2E4 /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18C9A7F224BDB9E001AB2E4 /* QRCodeViewController.swift */; };
+		A198B3FB2263FBCA001013E5 /* Watchdog.swift in Sources */ = {isa = PBXBuildFile; fileRef = A198B3FA2263FBCA001013E5 /* Watchdog.swift */; };
 		A19F27C12232CCD90072CBB1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19F27C02232CCD90072CBB1 /* AppDelegate.swift */; };
 		A19F27C32232CCD90072CBB1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19F27C22232CCD90072CBB1 /* ViewController.swift */; };
 		A19F27C62232CCD90072CBB1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A19F27C42232CCD90072CBB1 /* Main.storyboard */; };
@@ -25,7 +27,9 @@
 		9F984D86B19805732FCFF201 /* Pods-AppsConf.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppsConf.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AppsConf/Pods-AppsConf.debug.xcconfig"; sourceTree = "<group>"; };
 		A13460A12257326500CA35C7 /* TummyView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TummyView.xib; sourceTree = "<group>"; };
 		A13460A322573C9300CA35C7 /* TummyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TummyView.swift; sourceTree = "<group>"; };
+		A1495FFB225C8DD90017E898 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		A18C9A7F224BDB9E001AB2E4 /* QRCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeViewController.swift; sourceTree = "<group>"; };
+		A198B3FA2263FBCA001013E5 /* Watchdog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Watchdog.swift; sourceTree = "<group>"; };
 		A19F27BD2232CCD90072CBB1 /* AppsConf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppsConf.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A19F27C02232CCD90072CBB1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A19F27C22232CCD90072CBB1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -88,8 +92,10 @@
 			children = (
 				A19F27C02232CCD90072CBB1 /* AppDelegate.swift */,
 				A19F27C22232CCD90072CBB1 /* ViewController.swift */,
+				A1495FFB225C8DD90017E898 /* Logger.swift */,
 				A13460A322573C9300CA35C7 /* TummyView.swift */,
 				A1A7220A2235713600422453 /* KeyboardTracker.swift */,
+				A198B3FA2263FBCA001013E5 /* Watchdog.swift */,
 				A19F27C42232CCD90072CBB1 /* Main.storyboard */,
 				A13460A12257326500CA35C7 /* TummyView.xib */,
 				A19F27C72232CCDC0072CBB1 /* Assets.xcassets */,
@@ -221,7 +227,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A198B3FB2263FBCA001013E5 /* Watchdog.swift in Sources */,
 				A19F27C32232CCD90072CBB1 /* ViewController.swift in Sources */,
+				A1495FFC225C8DD90017E898 /* Logger.swift in Sources */,
 				A1A7220B2235713600422453 /* KeyboardTracker.swift in Sources */,
 				A13460A422573C9300CA35C7 /* TummyView.swift in Sources */,
 				A18C9A80224BDB9E001AB2E4 /* QRCodeViewController.swift in Sources */,

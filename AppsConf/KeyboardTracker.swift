@@ -21,8 +21,14 @@ class KeyboardTracker {
 	private weak var delegate: KeyboardTrackerDelegare?
 	
 	private var c = 0
+	private var trackerLogger: Logger?
+	
 	init(with delegate: KeyboardTrackerDelegare?) {
 		self.delegate = delegate
+	}
+	
+	init(with logger: Logger) {
+		self.trackerLogger = logger.dequeue(withTag: "[tracker]")
 	}
 	
 	func enable() {
@@ -92,6 +98,10 @@ extension KeyboardTracker {
 	}
 	
 	@objc func keyboardWillChangeFrame(notification: NSNotification) {
+		let height = 0.0
+
+		trackerLogger?.debug("\(#function): calculated height - \(height)")
+
 		guard let userInfo = notification.userInfo else {
 			return
 		}

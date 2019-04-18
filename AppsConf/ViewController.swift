@@ -30,8 +30,21 @@ class ViewController: UIViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
+		let height = 0.0
+		
+		let logger = Logger(withTag: "[keyboard]")
+		let tracker = KeyboardTracker(with: logger)
+		
+		
+		let trackerLogger = logger.dequeue(withTag: "[tracker]")
+		
+		trackerLogger.debug("\(#function): calculated height - \(height)")
+		
+		
 		tummyView = Bundle.main.loadNibNamed("TummyView", owner: self, options: nil)?.first as! UIView
-//		inputToolbar.frame = CGRect(x: 0, y: self.view.frame.height - inputToolbar!.frame.height, width: inputToolbar!.frame.width, height: inputToolbar!.frame.height)
+		self.view.addSubview(tummyView)
+		tummyView.frame = CGRect(x: 0, y: self.view.frame.height - tummyView!.frame.height, width: tummyView!.frame.width, height: tummyView!.frame.height)
 
 		self.tracker = KeyboardTracker(with: self)
 //		self.tracker.enable()
@@ -77,13 +90,13 @@ class ViewController: UIViewController {
 		tummyView.resignFirstResponder()
 	}
 	
-	override var inputAccessoryView: UIView? {
-		return tummyView
-	}
-	
-	override var canBecomeFirstResponder: Bool {
-		return true
-	}
+//	override var inputAccessoryView: UIView? {
+//		return tummyView
+//	}
+//	
+//	override var canBecomeFirstResponder: Bool {
+//		return true
+//	}
 }
 
 // MARK - Interactive keyboard
