@@ -17,8 +17,6 @@ class ViewController: UIViewController {
 	var _panStartFromInput: Bool = false
 	var keyboardStartY: CGFloat = 0.0
 	
-//	@IBOutlet weak var inputTolbar: UIView!
-	
 	var tummyView: UIView!
 	@IBOutlet weak var textField: UITextField!
 	@IBOutlet weak var topConstraint: NSLayoutConstraint!
@@ -30,24 +28,13 @@ class ViewController: UIViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
-		let height = 0.0
-		
-		let logger = Logger(withTag: "[keyboard]")
-		let tracker = KeyboardTracker(with: logger)
-		
-		
-		let trackerLogger = logger.dequeue(withTag: "[tracker]")
-		
-		trackerLogger.debug("\(#function): calculated height - \(height)")
-		
-		
-		tummyView = Bundle.main.loadNibNamed("TummyView", owner: self, options: nil)?.first as! UIView
-		self.view.addSubview(tummyView)
-		tummyView.frame = CGRect(x: 0, y: self.view.frame.height - tummyView!.frame.height, width: tummyView!.frame.width, height: tummyView!.frame.height)
+	
+//		tummyView = Bundle.main.loadNibNamed("TummyView", owner: self, options: nil)?.first as! UIView
+//		self.view.addSubview(tummyView)
+//		tummyView.frame = CGRect(x: 0, y: self.view.frame.height - tummyView!.frame.height, width: tummyView!.frame.width, height: tummyView!.frame.height)
 
 		self.tracker = KeyboardTracker(with: self)
-//		self.tracker.enable()
+		self.tracker.enable()
 		
 		let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapHandler))
 		view.addGestureRecognizer(tapRecognizer)
@@ -55,27 +42,11 @@ class ViewController: UIViewController {
 		subscribeForApplicationNotification()
 		
 		let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handle(_:)))
-//		view.addGestureRecognizer(panRecognizer)
-	}
-	
-	override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-		if motion == .motionShake {
-			let window = UIWindow(frame: view.window!.frame)
-			
-			let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "123")
-			
-			window.rootViewController = vc
-			
-			self.present(vc, animated: true) {
-				vc.dismiss(animated: true, completion: nil)
-			}
-		}
+		view.addGestureRecognizer(panRecognizer)
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		
-//		self.becomeFirstResponder()
 		
 		if #available(iOS 11.0, *) {
 			topConstraint.constant += view.safeAreaInsets.bottom
@@ -87,7 +58,7 @@ class ViewController: UIViewController {
 	}
 	
 	@objc func tapHandler() {
-		tummyView.resignFirstResponder()
+		textField.resignFirstResponder()
 	}
 	
 //	override var inputAccessoryView: UIView? {
@@ -102,39 +73,6 @@ class ViewController: UIViewController {
 // MARK - Interactive keyboard
 
 extension ViewController {
-	
-	func panHandler() {
-		let yPosition: CGFloat = 0.0
-		keyboardView()?.frame.origin.y = yPosition
-	}
-	
-	func keyboardView() -> UIView? {
-		let windows = UIApplication.shared.windows
-		
-		for window in windows.reversed() {
-			if let kView = keyboardView(fromWindow: window) {
-				return kView
-			}
-		}
-		
-		return nil
-	}
-	
-	func keyboardWindow() -> UIWindow? {
-		let windows = UIApplication.shared.windows
-		
-		for window in windows {
-			if keyboardView(fromWindow: window) != nil {
-				return window
-			}
-		}
-		
-		return nil
-	}
-	
-	func keyboardView(fromWindow window: UIWindow) -> UIView? {
-		return nil;
-	}
 	
 	@objc func handle(_ pan: UIPanGestureRecognizer) {
 		switch pan.state {
@@ -205,9 +143,8 @@ extension ViewController {
 
 				}
 			}
-			let transform = CATransform3DMakeTranslation(systemKeyboardFrame.origin.x, y, 0.0)
-			keyboardManager.keyboardWindow?.layer.sublayerTransform = transform
-//			keyboardManager.keyboardView?.frame = systemKeyboardFrame;
+			
+			keyboardManager.keyboardView?.frame = systemKeyboardFrame;
 			
 			bottomInputToolbarConstraint.constant = (view.bounds.height - y)
 		}
@@ -231,11 +168,7 @@ extension ViewController {
 		
 		notificationCenter.addObserver(self, selector: #selector(didBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
 	}
-	
-	
-	
-	
-	
+
 	@objc func willResignActive(notification: NSNotification) {
 		wasTextFieldFirstResponderBeforeAppDidEnterBackground = textField.isFirstResponder
 		print("is first responder \(textField.isFirstResponder)")

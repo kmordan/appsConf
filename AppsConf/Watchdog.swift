@@ -10,8 +10,6 @@ import Foundation
 
 class Watchdog {
 	var timer: Timer?
-	
-	var logger: Logger!
 
 	func start() {
 		timer = Timer(timeInterval: 1.0, repeats: true, block: { (timer) in
@@ -34,7 +32,6 @@ class Watchdog {
 	}
 	
 	func logTummyViewPosition() {
-		logger.debug("tummyView fucked up")
 		sendStatistic()	
 	}
 	

@@ -20,15 +20,8 @@ protocol KeyboardTrackerDelegare: class {
 class KeyboardTracker {
 	private weak var delegate: KeyboardTrackerDelegare?
 	
-	private var c = 0
-	private var trackerLogger: Logger?
-	
 	init(with delegate: KeyboardTrackerDelegare?) {
 		self.delegate = delegate
-	}
-	
-	init(with logger: Logger) {
-		self.trackerLogger = logger.dequeue(withTag: "[tracker]")
 	}
 	
 	func enable() {
@@ -98,10 +91,6 @@ extension KeyboardTracker {
 	}
 	
 	@objc func keyboardWillChangeFrame(notification: NSNotification) {
-		let height = 0.0
-
-		trackerLogger?.debug("\(#function): calculated height - \(height)")
-
 		guard let userInfo = notification.userInfo else {
 			return
 		}
@@ -113,11 +102,6 @@ extension KeyboardTracker {
 		let screenCoordinatedKeyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
 		
 		let keyboardFrame = window.convert(screenCoordinatedKeyboardFrame, from: nil)
-		
-//		let v = UIView(frame: keyboardFrame)
-//		v.backgroundColor = .red
-//		
-//		window.addSubview(v)
 		
 		print("\(#function) \(keyboardFrame)")
 		var windowHeight = window.frame.height
@@ -133,19 +117,10 @@ extension KeyboardTracker {
 		
 		let animation = KeyboardTransitionAnimation(duration: aDuration, curve: aCurve);
 
-		// iPad 1
-//		let isKeyboardUndocked = false
+		// iPad
 		let isKeyboardUndocked = isIPad() && keyboardFrame.maxY < windowHeight
 
 		if isKeyboardUndocked {
-			keyboardHeight = 0.0
-		}
-//
-//		// iPad 2
-//
-		let isKeyboardOnTopOfScreen = keyboardFrame.minY <= window.frame.minY;
-
-		if isKeyboardOnTopOfScreen {
 			keyboardHeight = 0.0
 		}
 		
